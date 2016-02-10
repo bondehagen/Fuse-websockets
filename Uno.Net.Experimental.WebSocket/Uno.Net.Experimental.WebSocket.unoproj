@@ -1,0 +1,13 @@
+{
+  "Projects": [
+    "../Uno.Net.Experimental.Http/Uno.Net.Experimental.Http.unoproj"
+  ],
+  "Packages": [
+    "Uno.Net.Sockets",
+    "Uno.Net.Http",
+    "Uno.Threading",
+  ],
+  "Includes": [
+    "*"
+  ]
+}

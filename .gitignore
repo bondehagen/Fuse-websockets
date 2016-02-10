@@ -1,0 +1,6 @@
+.uno
+bin
+obj
+*.suo
+build
+.vscode

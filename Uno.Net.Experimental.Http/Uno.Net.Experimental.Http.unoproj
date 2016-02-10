@@ -1,0 +1,13 @@
+{
+ "InternalsVisibleTo": [
+    "Uno.Net.Experimental.WebSocket"
+  ],
+  "Packages": [
+    "Uno.Net.Sockets",
+    "Uno.Net.Http",
+    "Uno.Threading",
+  ],
+  "Includes": [
+    "*"
+  ]
+}

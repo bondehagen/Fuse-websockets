@@ -1,0 +1,126 @@
+<App Theme="Basic">
+	<WebSocketTest.WebSocketModule ux:Global="WebSocket" />
+	<JavaScript File="SocketIO/socket.io.js" ux:Global="socketio" />
+	<JavaScript>
+		// NOTE: Some window hacks
+		window.WebSocket = this.WebSocket = function(_ws) {
+
+			'use strict';
+
+			var WS = function(url) {
+				_ws.connect(url);
+				return _ws;
+			};
+
+			WS.prototype = {
+				CONNECTING : 0,
+				OPEN : 1,
+				CLOSING : 2,
+				CLOSED : 3,
+				url : "",
+				extensions : "",
+				protocol : "",
+				binaryType : "",
+	  			bufferedAmount : 0
+			};
+			Object.defineProperty(WS.prototype, 'readyState', {
+				get: function() { console.log("readyState not implemented"); return 0; },
+				enumerable: true
+			});
+			return WS;
+
+		}(require("WebSocket"));
+
+		window.navigator = this.navigator = {
+			userAgent : ""
+		};
+		window.location = this.location = {
+			href : "",
+			origin : "",
+			protocol : "",
+			host : "",
+			hostname : "",
+			port : "",
+			pathname : "",
+			search : "",
+			hash : "",
+			assign : function(url) {},
+			replace : function(url) {},
+			reload : function() {}
+		};
+
+		var O = require("FuseJS/Observable");
+        var input = O("Hello from JS ");
+		var output = O("Ready to connect");
+
+		// Enable socketIO debugging
+		localStorage.debug = '*';
+
+		var io = require('socketio');
+
+		var opts = {
+			transports : ['websocket'],
+			reconnection : false,
+			perMessageDeflate : false
+		};
+		
+		var socket = null;
+
+		var connect = function() {
+			output.value = "Connecting";
+			socket = io("http://<uri>/", opts);
+			
+			socket.on('error', function(err) {
+				console.log("error");
+				output.value = "Error " + err;
+			});
+			socket.on('connect_error', function(err) {
+				console.log("error");
+				output.value = "Error " + err;
+			});
+			socket.on('connect_timeout', function(err) {
+				output.value = "Connect attempt timed out after " + err;
+			});
+
+	        socket.on('connect', function() {
+	            output.value = "Connection open";
+				socket.emit('identify', "Fuser");
+
+	           	socket.on('message', function(data){
+					output.value += "\n" + data;
+	            });
+	            socket.on('disconnect', function(){
+	                output.value = "Connection closed";	
+	            });
+	        });
+		}
+
+		var send = function() {
+			socket.emit('message', input.value);	
+		}
+
+		var disconnect = function() {
+			socket.disconnect();
+		}
+
+		module.exports = {
+			input : input,
+			output : output,
+			connect : connect,
+			send : send,
+			disconnect : disconnect
+		}
+	</JavaScript>
+	<DockPanel>
+		<TopFrameBackground Dock="Top" />
+		<StackPanel Orientation="Horizontal" Dock="Top">
+			<TextInput Value="{input}" Width="100" />
+			<Button Text="Send" Clicked="{send}" />
+			<Button Text="Connect" Clicked="{connect}" />
+			<Button Text="Disconnect" Clicked="{disconnect}" />
+		</StackPanel>
+		<Panel Background="#457">
+			<Text Value="{output}" />
+		</Panel>
+	</DockPanel>
+</App>

@@ -1,0 +1,30 @@
+{
+  "Projects": [
+    "../Uno.Net.Experimental.Http/Uno.Net.Experimental.Http.unoproj",
+    "../Uno.Net.Experimental.WebSocket/Uno.Net.Experimental.WebSocket.unoproj"
+  ],
+  "Packages": [
+    "Fuse.BasicTheme",
+    "Fuse.Controls",
+    "Fuse.Designer",
+    "Fuse.Drawing",
+    "Fuse.Effects",
+    "Fuse.Elements",
+    "Fuse.Gestures",
+    "Fuse.Android",
+    "Fuse.iOS",
+    "Fuse.Desktop",
+    "Fuse.Navigation",
+    "Fuse.Reactive",
+    "Fuse.Scripting",
+    "Fuse.Shapes",
+    "Fuse.Triggers",
+    "Uno.Net.Sockets",
+    "Uno.Net.Http",
+    "Uno.Threading",
+    "FuseCore"
+  ],
+  "Includes": [
+    "*"
+  ]
+}
